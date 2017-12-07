@@ -6,19 +6,18 @@ import com.jolla.keyboard 1.0
 import ".."
 
 ContextAwareCommaKey {
-    accents: if(canvas.layoutModel.get(canvas.activeIndex).name.slice(-3) === "iOS") {
-             MInputMethodQuick.contentType === Maliit.UrlContentType
-             ? ":,@"
-             : MInputMethodQuick.contentType === Maliit.EmailContentType
-               ? ":,/"
-               : ":@/"
+    function accents() { 
+	if(canvas.layoutModel.get(canvas.activeIndex).name.slice(-3) === "iOS") {
+             if (MInputMethodQuick.contentType === Maliit.UrlContentType)
+                 return ":,@"
+             if (MInputMethodQuick.contentType === Maliit.EmailContentType)
+                 return ":,/"
+             return ":@/"
+    	}
+        return ""
     }
-    accentsShifted: if(canvas.layoutModel.get(canvas.activeIndex).name.slice(-3) === "iOS") {
-             MInputMethodQuick.contentType === Maliit.UrlContentType
-             ? ":,@"
-             : MInputMethodQuick.contentType === Maliit.EmailContentType
-               ? ":,/"
-               : ":@/"
-    }
+
+    accents: accents()
+    accentsShifted: accents()
     implicitWidth: punctuationKeyWidth * 0.8
 }
